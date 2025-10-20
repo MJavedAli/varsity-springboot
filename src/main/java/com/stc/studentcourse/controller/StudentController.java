@@ -1,52 +1,62 @@
 package com.stc.studentcourse.controller;
 
 import com.stc.studentcourse.model.entity.Student;
-import com.stc.studentcourse.service.StudentService;
-import org.springframework.http.ResponseEntity;
+import com.stc.studentcourse.service.RegistrationService;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/students")
+@RequestMapping("/api/students")
 public class StudentController {
 
-    private final StudentService studentService;
+    private final RegistrationService registrationService;
 
-    public StudentController(StudentService studentService) {
-        this.studentService = studentService;
+    public StudentController(RegistrationService registrationService) {
+        this.registrationService = registrationService;
     }
 
-    @GetMapping
-    public List<Student> getAllStudents() {
-        return studentService.getAllStudents();
+    // ------------------- Register Student -------------------
+    @PostMapping("/register")
+    public Map<String, Object> registerStudent(@RequestBody Student student) {
+        return registrationService.registerStudent(student);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Student> getStudentById(@PathVariable String id) {
-        return studentService.getStudentById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    // ------------------- Get Student by ID / National ID / Full Name -------------------
+    @GetMapping("/profile")
+    public Optional<Student> getStudentProfile(
+            @RequestParam(required = false) String universityId,
+            @RequestParam(required = false) String nationalId,
+            @RequestParam(required = false) String fullName
+    ) {
+        return registrationService.getStudentProfileById(universityId, nationalId, fullName);
     }
 
-    @PostMapping
-    public Student createStudent(@RequestBody Student student) {
-        return studentService.saveStudent(student);
+    // ------------------- Get Students by Registration Date Range -------------------
+    @GetMapping("/profile/date-range")
+    public List<Student> getStudentProfileDateRange(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to
+    ) {
+        return registrationService.getStudentProfileDateRange(from, to);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Student> updateStudent(@PathVariable String id, @RequestBody Student student) {
-        return studentService.getStudentById(id)
-                .map(existing -> {
-                    student.setUniversityId(id);
-                    return ResponseEntity.ok(studentService.saveStudent(student));
-                })
-                .orElse(ResponseEntity.notFound().build());
+    // ------------------- Get Student Course Details -------------------
+    @GetMapping("/{studentId}/courses")
+    public Map<String, Object> getStudentCourseDetails(@PathVariable String studentId) {
+        return registrationService.getStudentCourseDetails(studentId);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteStudent(@PathVariable String id) {
-        studentService.deleteStudent(id);
-        return ResponseEntity.noContent().build();
+    // ------------------- Register Student Courses -------------------
+    @PostMapping("/{studentId}/courses")
+    public Map<String, Object> registerStudentCourses(
+            @PathVariable String studentId,
+            @RequestBody List<String> courseCodes
+    ) {
+        return registrationService.registerStudentCourses(studentId, courseCodes);
     }
 }
