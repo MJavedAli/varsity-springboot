@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  oracle-db:
+    image: gvenzl/oracle-xe:21-slim
+    container_name: oracle-db
+    environment:
+      - ORACLE_PASSWORD=MyStrongPass123
+      - ORACLE_ALLOW_REMOTE=true
+    ports:
+      - "1521:1521"
+    volumes:
+      - oracle-data:/opt/oracle/oradata
+
+  stc-demo:
+    build: .
+    container_name: stc-demo
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:oracle:thin:@oracle-db:1521/XE
+      SPRING_DATASOURCE_USERNAME: SYSTEM
+      SPRING_DATASOURCE_PASSWORD: MyStrongPass123
+    depends_on:
+      - oracle-db
+
+volumes:
+  oracle-data:
