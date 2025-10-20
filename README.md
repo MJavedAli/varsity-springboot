@@ -1,13 +1,13 @@
-# STC Demo - Spring Boot + PostgreSQL (Dockerized)
+# STC Demo - Spring Boot + OracleXE 
 
-This project is a **Spring Boot REST API** integrated with **PostgreSQL**, fully dockerized for easy setup and deployment.
+This project is a **Spring Boot REST API** integrated with **OracleXE**, fully dockerized for easy setup and deployment.
 
 ---
 
 ## Features
 
 - Spring Boot REST API (Java 17)
-- PostgreSQL database (via Docker Compose)
+- OracleXE database (via Docker Compose)
 - Docker-ready setup for local or cloud deployment
 - Easy build and run commands
 - Ready for hosting on Render, Railway, or any Docker-compatible platform
