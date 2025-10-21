@@ -29,7 +29,7 @@ public class StudentCourseKey implements Serializable {
         this.courseCode = courseCode;
     }
 
-    // hashCode and equals (required for @EmbeddedId)
+   
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
