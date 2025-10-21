@@ -32,4 +32,6 @@ public class StudentCourseService {
     public void deleteStudentCourse(StudentCourseKey id) {
         studentCourseRepository.deleteById(id);
     }
+
+    
 }
