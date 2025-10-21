@@ -56,14 +56,14 @@ docker-compose up
 
 This will spin up:
 - `stc-demo` (Spring Boot App) at [http://localhost:8080](http://localhost:8080)
-- `oracle-xe` (Database) at port `5432`
+- `oracle-xe` (Database) at port `1521`
 
 ---
 
 ## API Documentation
 
 All requests and responses are in JSON.  
-Example base URL: `https://varsity-springboot.onrender.com/api/`
+Temporarily hosted here -  base URL: `https://varsity-springboot.onrender.com/api/`
 
 ---
 
