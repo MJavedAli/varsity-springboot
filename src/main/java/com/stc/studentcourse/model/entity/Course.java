@@ -17,7 +17,6 @@ public class Course {
     @JoinColumn(name = "professor_id")
     private Professor professor;
 
-    // Getters and Setters
     public String getCourseCode() {
         return courseCode;
     }

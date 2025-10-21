@@ -32,7 +32,7 @@ public class Student {
     @Column(name = "mobile_number")
     private String mobileNumber;
 
-    // Getters and Setters
+  
     public String getUniversityId() {
         return universityId;
     }

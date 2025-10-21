@@ -19,7 +19,6 @@ public class StudentCourse {
     @JoinColumn(name = "course_code")
     private Course course;
 
-    // Getters and Setters
     public StudentCourseKey getId() {
         return id;
     }
