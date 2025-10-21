@@ -62,7 +62,7 @@ This will spin up:
 
 ## API Documentation
 
-All requests and responses are in JSON.  
+All requests and responses are in JSON.
 Temporarily hosted here -  base URL: `https://varsity-springboot.onrender.com/api/`
 
 ---
