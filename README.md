@@ -39,7 +39,7 @@ stc-demo/
 
 ## Setup Instructions
 
-### 1Build the JAR
+### Build the JAR
 ```bash
 mvn clean package -DskipTests
 ```
