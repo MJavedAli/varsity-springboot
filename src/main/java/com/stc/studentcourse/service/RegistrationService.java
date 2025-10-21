@@ -150,36 +150,71 @@ public class RegistrationService {
         ).findFirst();
     }
 
+    // public Map<String, Object> getStudentCourseDetails(String studentId) {
+    //     Map<String, Object> response = new HashMap<>();
+    //     Optional<Student> studentOpt = studentService.getStudentById(studentId);
+    //     if (studentOpt.isEmpty()) {
+    //         response.put("status", "Failed");
+    //         response.put("message", "No record found");
+    //         return response;
+    //     }
+
+    //     List<StudentCourse> studentCourses = studentCourseService.getAllStudentCourses()
+    //             .stream()
+    //             .filter(sc -> sc.getStudent().getUniversityId().equals(studentId))
+    //             .collect(Collectors.toList());
+
+    //     response.put("studentProfile", Map.of(
+    //             "universityId", studentOpt.get().getUniversityId(),
+    //             "firstName", studentOpt.get().getFirstName(),
+    //             "lastName", studentOpt.get().getLastName()
+    //     ));
+
+    //     List<Map<String, String>> courses = studentCourses.stream().map(sc -> Map.of(
+    //             "courseCode", sc.getCourse().getCourseCode(),
+    //             "courseName", sc.getCourse().getCourseName(),
+    //             "professorFirstName", sc.getCourse().getProfessor().getFirstName(),
+    //             "professorLastName", sc.getCourse().getProfessor().getLastName()
+    //     )).collect(Collectors.toList());
+
+    //     response.put("courses", courses);
+    //     return response;
+    // }
+
     public Map<String, Object> getStudentCourseDetails(String studentId) {
-        Map<String, Object> response = new HashMap<>();
-        Optional<Student> studentOpt = studentService.getStudentById(studentId);
-        if (studentOpt.isEmpty()) {
-            response.put("status", "Failed");
-            response.put("message", "No record found");
-            return response;
-        }
+    Map<String, Object> response = new HashMap<>();
 
-        List<StudentCourse> studentCourses = studentCourseService.getAllStudentCourses()
-                .stream()
-                .filter(sc -> sc.getStudent().getUniversityId().equals(studentId))
-                .collect(Collectors.toList());
-
-        response.put("studentProfile", Map.of(
-                "universityId", studentOpt.get().getUniversityId(),
-                "firstName", studentOpt.get().getFirstName(),
-                "lastName", studentOpt.get().getLastName()
-        ));
-
-        List<Map<String, String>> courses = studentCourses.stream().map(sc -> Map.of(
-                "courseCode", sc.getCourse().getCourseCode(),
-                "courseName", sc.getCourse().getCourseName(),
-                "professorFirstName", sc.getCourse().getProfessor().getFirstName(),
-                "professorLastName", sc.getCourse().getProfessor().getLastName()
-        )).collect(Collectors.toList());
-
-        response.put("courses", courses);
+    Optional<Student> studentOpt = studentService.getStudentById(studentId);
+    if (studentOpt.isEmpty()) {
+        response.put("status", "Failed");
+        response.put("message", "No record found");
         return response;
     }
+
+    List<StudentCourse> studentCourses = studentCourseService.getCoursesByStudentId(studentId);
+
+    if (studentCourses.isEmpty()) {
+        response.put("status", "Failed");
+        response.put("message", "No record found");
+        return response;
+    }
+
+    response.put("studentProfile", Map.of(
+            "universityId", studentOpt.get().getUniversityId(),
+            "firstName", studentOpt.get().getFirstName(),
+            "lastName", studentOpt.get().getLastName()
+    ));
+
+    List<Map<String, String>> courses = studentCourses.stream().map(sc -> Map.of(
+            "courseCode", sc.getCourse().getCourseCode(),
+            "courseName", sc.getCourse().getCourseName()
+            // "professorFirstName", sc.getCourse().getProfessor().getFirstName(),
+            // "professorLastName", sc.getCourse().getProfessor().getLastName()
+    )).collect(Collectors.toList());
+
+    response.put("courses", courses);
+    return response;
+}
 
     public List<Course> getAllCourses() {
     return courseService.getAllCourses();

@@ -16,6 +16,10 @@ public class StudentCourseService {
     public StudentCourseService(StudentCourseRepository studentCourseRepository) {
         this.studentCourseRepository = studentCourseRepository;
     }
+    public List<StudentCourse> getCoursesByStudentId(String studentId) {
+    return studentCourseRepository.findByIdStudentId(studentId);
+}
+
 
     public List<StudentCourse> getAllStudentCourses() {
         return studentCourseRepository.findAll();
